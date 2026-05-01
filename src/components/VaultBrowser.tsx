@@ -36,8 +36,9 @@ export function VaultBrowser({ isOpen, onClose, onSelectLyric }: VaultBrowserPro
 
     setIsLoadingArtists(true);
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://web-production-fceac.up.railway.app';
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/vault-search?q=${encodeURIComponent(q)}`
+        `${apiUrl}/api/vault-search?q=${encodeURIComponent(q)}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -53,8 +54,9 @@ export function VaultBrowser({ isOpen, onClose, onSelectLyric }: VaultBrowserPro
     setSongs([]);
     setIsLoadingSongs(true);
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://web-production-fceac.up.railway.app';
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/vault-songs?artist=${artistSlug}`
+        `${apiUrl}/api/vault-songs?artist=${artistSlug}`
       );
       if (response.ok) {
         const data = await response.json();
@@ -67,8 +69,9 @@ export function VaultBrowser({ isOpen, onClose, onSelectLyric }: VaultBrowserPro
 
   const selectSong = async (artistSlug: string, songIdx: number) => {
     try {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://web-production-fceac.up.railway.app';
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/vault-lyrics?artist=${artistSlug}&idx=${songIdx}`
+        `${apiUrl}/api/vault-lyrics?artist=${artistSlug}&idx=${songIdx}`
       );
       if (response.ok) {
         const data = await response.json();

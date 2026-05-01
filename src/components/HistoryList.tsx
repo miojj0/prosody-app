@@ -24,7 +24,8 @@ export function HistoryList() {
   const fetchHistory = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/history-test`);
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://web-production-fceac.up.railway.app';
+      const response = await fetch(`${apiUrl}/api/history-test`);
 
       if (!response.ok) {
         setError('Erro ao carregar histórico');
