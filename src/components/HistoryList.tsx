@@ -24,14 +24,10 @@ export function HistoryList() {
   const fetchHistory = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/history`);
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/history-test`);
 
       if (!response.ok) {
-        if (response.status === 401) {
-          setError('Você precisa estar logado para ver o histórico');
-        } else {
-          setError('Erro ao carregar histórico');
-        }
+        setError('Erro ao carregar histórico');
         return;
       }
 
