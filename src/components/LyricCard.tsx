@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { cn } from '@/lib/utils';
 
 export interface LyricCardProps {
   lyrics: string[];
@@ -70,5 +71,3 @@ export function LyricCard({
     </div>
   );
 }
-
-import { cn } from '@/lib/utils';
