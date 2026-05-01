@@ -63,8 +63,29 @@ export default function Home() {
     a.click();
   };
 
-  const handleSave = (index: number) => {
-    alert('❤️ Função de salvar será implementada em breve!');
+  const handleSave = async (index: number) => {
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'https://web-production-fceac.up.railway.app'}/api/save-generation`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          original_lyric: generatedLyrics[0] || '',
+          theme: 'tema desconhecido',
+          language: 'português',
+          variants: generatedLyrics
+        })
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        alert(`❌ ${error.error || 'Erro ao salvar'}`);
+        return;
+      }
+
+      alert('❤️ Letra salva no seu histórico!');
+    } catch (err) {
+      alert('❌ Erro ao conectar com o servidor');
+    }
   };
 
   return (
