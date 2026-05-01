@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
+import { VaultBrowser } from './VaultBrowser';
 
 export interface LyricGeneratorProps {
   onGenerate?: (data: GenerateRequest) => void;
@@ -21,6 +22,7 @@ export function LyricGenerator({ onGenerate, isLoading }: LyricGeneratorProps) {
   const [idioma, setIdioma] = useState('português');
   const [quantidade, setQuantidade] = useState(4);
   const [prosodyAnalysis, setProsodyAnalysis] = useState<any>(null);
+  const [vaultBrowserOpen, setVaultBrowserOpen] = useState(false);
 
   const analyzeProsody = () => {
     if (!fragmento.trim()) return;
@@ -46,13 +48,34 @@ export function LyricGenerator({ onGenerate, isLoading }: LyricGeneratorProps) {
     });
   };
 
+  const handleSelectFromVault = (lyrics: string, artist: string, song: string) => {
+    setFragmento(lyrics);
+    setProsodyAnalysis(null);
+  };
+
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="space-y-6">
-        {/* Fragmento */}
-        <div className="bg-slate-900/40 backdrop-blur border border-slate-700/30 rounded-2xl p-8">
-          <h2 className="text-lg font-bold mb-2">📝 Fragmento</h2>
-          <p className="text-sm text-slate-400 mb-4">Cole um verso ou refrão</p>
+    <>
+      <VaultBrowser
+        isOpen={vaultBrowserOpen}
+        onClose={() => setVaultBrowserOpen(false)}
+        onSelectLyric={handleSelectFromVault}
+      />
+      <div className="w-full max-w-2xl mx-auto">
+        <div className="space-y-6">
+          {/* Fragmento */}
+          <div className="bg-slate-900/40 backdrop-blur border border-slate-700/30 rounded-2xl p-8">
+            <div className="flex justify-between items-start mb-4">
+              <div>
+                <h2 className="text-lg font-bold">📝 Fragmento</h2>
+                <p className="text-sm text-slate-400 mt-1">Cole um verso ou refrão</p>
+              </div>
+              <button
+                onClick={() => setVaultBrowserOpen(true)}
+                className="px-3 py-2 bg-slate-800/60 hover:bg-slate-700/60 rounded-lg text-sm font-semibold transition border border-slate-700/30"
+              >
+                🎵 Inspire-se
+              </button>
+            </div>
           <textarea
             value={fragmento}
             onChange={(e) => setFragmento(e.target.value)}
@@ -83,6 +106,7 @@ export function LyricGenerator({ onGenerate, isLoading }: LyricGeneratorProps) {
               </div>
             </div>
           )}
+          </div>
         </div>
 
         {/* Tema e Idioma */}
@@ -145,6 +169,6 @@ export function LyricGenerator({ onGenerate, isLoading }: LyricGeneratorProps) {
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 }
